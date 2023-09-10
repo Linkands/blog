@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\View;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -52,20 +53,40 @@ class UserController extends Controller
         return redirect('/')->with('success', 'You are now logged out');
     }
 
-    public function profile(User $user) {
+    private function getProfileSharedData($user) {
         $currentlyFollowing = 0;
 
         if (auth()->check()) {
             $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
         }
-        
-        return view('profile-posts', [
+
+        View::share('sharedData', [
             'avatar' => $user->avatar,
             'username' => $user->username, 
-            'posts' => $user->posts()->latest()->get(),
             'postsCount' => $user->posts()->count(),
             'currentlyFollowing' => $currentlyFollowing,
             'userId' => $user->id
+        ]);
+    }
+
+    public function profile(User $user) {
+        $this->getProfileSharedData($user);
+        return view('profile-posts', [
+            'posts' => $user->posts()->latest()->get(),
+        ]);
+    }
+
+    public function profileFollowers(User $user) {
+        $this->getProfileSharedData($user);
+        return view('profile-followers', [
+            'posts' => $user->posts()->latest()->get(),
+        ]);
+    }
+
+    public function profileFollowing(User $user) {
+        $this->getProfileSharedData($user);
+        return view('profile-following', [
+            'posts' => $user->posts()->latest()->get(),
         ]);
     }
 
