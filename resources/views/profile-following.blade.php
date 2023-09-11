@@ -1,10 +1,10 @@
 <x-profile :sharedData="$sharedData">
-    <div class="list-group">
-      @foreach ($posts as $post)
-          <a href="/post/{{$post->id}}" class="list-group-item list-group-item-action">
-              <img class="avatar-tiny" src="{{$post->user->avatar}}" />
-              <strong>{{$post->title}}</strong> on {{$post->created_at}}
-          </a>
-      @endforeach
-    </div>
-  </x-profile>
+  <div class="list-group">
+    @foreach ($followingTheseUsers as $followedUser)
+        <a href="/profile/{{$followedUser->userBeingFollowed->username}}" class="list-group-item list-group-item-action">
+            <img class="avatar-tiny" src="{{$followedUser->userBeingFollowed->avatar}}" />
+            {{$followedUser->userBeingFollowed->username}}
+        </a>
+    @endforeach
+  </div>
+</x-profile>
