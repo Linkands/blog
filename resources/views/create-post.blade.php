@@ -1,5 +1,5 @@
 <x-layout doctitle="Create new post">
-    <div class="container py-md-5 container--narrow">
+    <div class="container py-md-5 container--narrow mb-3">
         <form action="/create-post" method="POST">
             @csrf
             <div class="form-group">

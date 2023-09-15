@@ -1,5 +1,5 @@
 <x-layout :doctitle="$doctitle">
-    <div class="container py-md-5 container--narrow">
+    <div class="container py-md-5 container--narrow mb-3">
         <h2>
           <img class="avatar-small" src="{{$sharedData['avatar']}}" />{{$sharedData['username']}}
           @auth
